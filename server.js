@@ -16,6 +16,9 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 
+// Body parser
+app.use(express.json());
+
 // Route files
 const bootcamps = require('./routes/bootcamps');
 
