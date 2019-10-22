@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+const errorHandler = require('./middleware/error')
 const connectDB = require('./config/db');
 
 const app = express();
@@ -24,6 +25,9 @@ const bootcamps = require('./routes/bootcamps');
 
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);
+
+// Error Handler Middleware
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
