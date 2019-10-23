@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const BootcampSchema = new mongoose.Schema({
   name: {
@@ -99,5 +100,15 @@ const BootcampSchema = new mongoose.Schema({
     default: Date.now
   },
 });
+
+
+// Create bootcamp slug(short name) from the name
+// Used normal func instead of arrows because they use 'this' of their parents 
+// In below middleware, "this" refers to document that will we saved and can reach its fields
+BootcampSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true })
+  next();
+})
+
 
 module.exports = mongoose.model('Bootcamp', BootcampSchema);
