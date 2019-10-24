@@ -22,9 +22,13 @@ app.use(express.json());
 
 // Route files
 const bootcamps = require('./routes/bootcamps');
+const courses = require('./routes/courses');
+
 
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);
+app.use('/api/v1/courses', courses);
+
 
 // Error Handler Middleware
 app.use(errorHandler);
