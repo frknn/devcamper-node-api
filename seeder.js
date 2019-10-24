@@ -7,6 +7,7 @@ dotenv.config({ path: './config/config.env' });
 
 // Load models
 const Bootcamp = require('./models/Bootcamp');
+const Course = require('./models/Course');
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI, {
@@ -18,32 +19,58 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Read JSON files
 const bootcamps = JSON.parse(fs.readFileSync(`${__dirname}/_data/bootcamps.json`, 'utf-8'));
+const courses = JSON.parse(fs.readFileSync(`${__dirname}/_data/courses.json`, 'utf-8'));
 
-// Import data to DB
-const importData = async () => {
+// Import bootcamp data to DB
+const importBootcampData = async () => {
   try {
     await Bootcamp.create(bootcamps);
-    console.log('Data imported successfully!');
+    console.log('Bootcamp data imported successfully!');
     process.exit();
   } catch (err) {
     console.error(err);
   }
 };
 
-// Delete data
-const deleteData = async () => {
+// Delete bootcamp data
+const deleteBootcampData = async () => {
   try {
     await Bootcamp.deleteMany();
-    console.log('Data destroyed!');
+    console.log('Bootcamp data destroyed!');
     process.exit();
   } catch (err) {
     console.error(err);
   }
 };
 
-if (process.argv[2] === '-i') {
-  importData();
-} else if (process.argv[2] === '-d') {
-  deleteData();
+// Import course data to DB
+const importCourseData = async () => {
+  try {
+    await Course.create(courses);
+    console.log('Course data imported successfully!');
+    process.exit();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Delete course data
+const deleteCourseData = async () => {
+  try {
+    await Course.deleteMany();
+    console.log('Course data destroyed!');
+    process.exit();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+if (process.argv[2] === '-b') {
+  if (process.argv[3] === '-i') importBootcampData();
+  else if (process.argv[3] === '-d') deleteBootcampData();
+}
+else if (process.argv[2] === '-c') {
+  if (process.argv[3] === '-i') importCourseData();
+  else if (process.argv[3] === '-d') deleteCourseData();
 }
 
