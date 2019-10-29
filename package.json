@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "SET NODE_ENV=production& node server",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "seed": "node seeder -b -i && node seeder -c -i",
+    "destroy": "node seeder -c -d && node seeder -b -d",
+    "dns": "node seeder -c -d && node seeder -b -d && node seeder -b -i && node seeder -c -i"
   },
   "author": "Furkan Setbasi",
   "license": "ISC",

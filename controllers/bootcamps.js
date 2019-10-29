@@ -84,7 +84,10 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.getBootcamp = asyncHandler(async (req, res, next) => {
 
-  const bootcamp = await Bootcamp.findById(req.params.id);
+  const bootcamp = await Bootcamp.findById(req.params.id).populate({
+    path: 'courses',
+    select: 'title description weeks'
+  });
 
   // handling correctly formatted but non-existent data
   if (!bootcamp) {

@@ -38,4 +38,44 @@ const CourseSchema = new mongoose.Schema({
   }
 });
 
+/* Static methods can be called directly from the object itself 
+  they don't need an instance,
+  besides they can't be called from instance */
+
+// Static method for calculating average cost
+CourseSchema.statics.getAverageCost = async function (bootcampId) {
+  // mongodb aggregate doc
+  // https://docs.mongodb.com/manual/reference/method/db.collection.aggregate/
+  const obj = await this.aggregate([
+    {
+      $match: { bootcamp: bootcampId }
+    },
+    {
+      $group: {
+        _id: '$bootcamp',
+        averageCost: { $avg: "$tuition" }
+      }
+    }
+  ]);
+
+  try {
+    await this.model('Bootcamp').findByIdAndUpdate(bootcampId, {
+      averageCost: Math.ceil(obj[0].averageCost / 10) * 10
+    })
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+// Call getAverageCost after save
+CourseSchema.post('save', async function () {
+  await this.constructor.getAverageCost(this.bootcamp)
+});
+
+// Call getAverageCost before remove
+CourseSchema.pre('remove', async function () {
+  await this.constructor.getAverageCost(this.bootcamp)
+});
+
 module.exports = mongoose.model('Course', CourseSchema);
