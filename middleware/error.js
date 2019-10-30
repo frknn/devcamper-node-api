@@ -20,13 +20,9 @@ const errorHandler = (err, req, res, next) => {
     error = new ErrorResponse(message, 400);
   }
 
-  // ValidatonError - When a required field not entered
+  // Mongoose ValidatonError
   if (err.name === 'ValidationError') {
-    let message = 'Please add '
-    Object.keys(err.errors).forEach((errField) => {
-      message += `${errField}, `
-    });
-    message = message.slice(0, message.length - 2) + "."
+    const message = Object.values(err.errors).map(val => val.message);
     error = new ErrorResponse(message, 400);
   }
 
