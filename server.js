@@ -1,6 +1,8 @@
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+const fileupload = require('express-fileupload');
 const errorHandler = require('./middleware/error')
 const connectDB = require('./config/db');
 
@@ -20,10 +22,15 @@ if (process.env.NODE_ENV === 'development') {
 // Body parser
 app.use(express.json());
 
+// File uploading
+app.use(fileupload());
+
+// Set static folder to reach the source directly from url/source.src
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Route files
 const bootcamps = require('./routes/bootcamps');
 const courses = require('./routes/courses');
-
 
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);
