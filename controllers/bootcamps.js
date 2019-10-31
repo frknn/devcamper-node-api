@@ -37,6 +37,17 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.createBootcamp = asyncHandler(async (req, res, next) => {
 
+  // Add user(objectId) to req.body
+  req.body.user = req.user.id;
+
+  // Check for published bootcamp
+  // Only admins can create more than one bootcamp
+  const publishedBootcamp = await Bootcamp.findOne({user: req.user.id});
+
+  if(publishedBootcamp && req.user.role !== 'admin'){
+    return next(new ErrorResponse('Publishers can not create more than one bootcamp!', 400));
+  }
+
   const bootcamp = await Bootcamp.create(req.body);
 
   res.status(201).json({ success: true, data: bootcamp });

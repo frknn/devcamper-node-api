@@ -8,6 +8,7 @@ dotenv.config({ path: './config/config.env' });
 // Load models
 const Bootcamp = require('./models/Bootcamp');
 const Course = require('./models/Course');
+const User = require('./models/User');
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI, {
@@ -20,6 +21,7 @@ mongoose.connect(process.env.MONGO_URI, {
 // Read JSON files
 const bootcamps = JSON.parse(fs.readFileSync(`${__dirname}/_data/bootcamps.json`, 'utf-8'));
 const courses = JSON.parse(fs.readFileSync(`${__dirname}/_data/courses.json`, 'utf-8'));
+const users = JSON.parse(fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8'));
 
 // Import bootcamp data to DB
 const importBootcampData = async () => {
@@ -65,6 +67,28 @@ const deleteCourseData = async () => {
   }
 };
 
+// Import user data to DB
+const importUserData = async () => {
+  try {
+    await User.create(courses);
+    console.log('User data imported successfully!');
+    process.exit();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Delete user data
+const deleteUserData = async () => {
+  try {
+    await User.deleteMany();
+    console.log('User data destroyed!');
+    process.exit();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 if (process.argv[2] === '-b') {
   if (process.argv[3] === '-i') importBootcampData();
   else if (process.argv[3] === '-d') deleteBootcampData();
@@ -72,5 +96,9 @@ if (process.argv[2] === '-b') {
 else if (process.argv[2] === '-c') {
   if (process.argv[3] === '-i') importCourseData();
   else if (process.argv[3] === '-d') deleteCourseData();
+}
+else if (process.argv[2] === '-u') {
+  if (process.argv[3] === '-i') importUserData();
+  else if (process.argv[3] === '-d') deleteUserData();
 }
 
