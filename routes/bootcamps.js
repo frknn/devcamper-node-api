@@ -10,10 +10,9 @@ const {
   bootcampPhotoUpload
 } = require('../controllers/bootcamps');
 
-const { protect, authorize } = require('../middleware/auth');
-
-// importing advResults middleware
+// importing advancedResults, protect and authorize middlewares
 const advancedResults = require('../middleware/advancedResults');
+const { protect, authorize } = require('../middleware/auth');
 
 // importing bootcamp model
 const Bootcamp = require('../models/Bootcamp');
