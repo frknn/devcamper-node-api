@@ -70,7 +70,7 @@ const deleteCourseData = async () => {
 // Import user data to DB
 const importUserData = async () => {
   try {
-    await User.create(courses);
+    await User.create(users);
     console.log('User data imported successfully!');
     process.exit();
   } catch (err) {
