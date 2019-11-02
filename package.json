@@ -6,9 +6,9 @@
   "scripts": {
     "start": "SET NODE_ENV=production& node server",
     "dev": "nodemon server",
-    "seed": "node seeder -b -i && node seeder -c -i && node seeder -u -i",
-    "destroy": "node seeder -c -d && node seeder -b -d && node seeder -u -d",
-    "dns": "node seeder -c -d && node seeder -b -d && node seeder -u -d && node seeder -b -i && node seeder -c -i && node seeder -u -i"
+    "seed": "node seeder -b -i && node seeder -c -i && node seeder -u -i && node seeder -r -i",
+    "destroy": "node seeder -c -d && node seeder -b -d && node seeder -u -d && node seeder -r -d",
+    "dns": "node seeder -c -d && node seeder -b -d && node seeder -u -d && node seeder -r -d && node seeder -b -i && node seeder -c -i && node seeder -u -i && node seeder -r -i"
   },
   "author": "Furkan Setbasi",
   "license": "ISC",

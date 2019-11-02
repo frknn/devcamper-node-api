@@ -1,6 +1,8 @@
 const express = require('express');
 const {
-  getReviews
+  getReviews,
+  getReview,
+  createReview
 } = require('../controllers/reviews');
 
 // importing course model
@@ -20,5 +22,9 @@ router.route('/')
   }),
     getReviews
   )
+  .post(protect, authorize('user', 'admin'), createReview)
+
+router.route('/:id')
+  .get(getReview);
 
 module.exports = router;
